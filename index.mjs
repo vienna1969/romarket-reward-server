@@ -241,7 +241,9 @@ app.get("/", (req, res) => {
 const settings = {
   //apiKey: 'XBY-aoD3cF_vjy6le186jtpbWDIqSvrH', // Replace with your Alchemy API Key.
 
-  apiKey: '8YyZWFtcbLkYveYaB9sjOC3KPWInNu07', // Replace with your Alchemy API Key.
+  //apiKey: '8YyZWFtcbLkYveYaB9sjOC3KPWInNu07', // Replace with your Alchemy API Key.
+
+  apiKey: process.env.ALCHEMY_API_KEY,
 
   network: Network.MATIC_MAINNET, // Replace with your network.
 };
@@ -269,7 +271,7 @@ const sdk = ThirdwebSDK.fromPrivateKey(
 */
 
 
-const sdk = ThirdwebSDK.fromPrivateKey(privatekey, "polygon", {
+const sdk = ThirdwebSDK.fromPrivateKey(privatekey, "binance", {
   clientId: process.env.THIRDWEB_CLIENT_ID, // Use client id if using on the client side, get it from dashboard settings
   secretKey: process.env.THIRDWEB_SECRET_KEY, // Use secret key if using on the server, get it from dashboard settings
 
@@ -291,11 +293,10 @@ const sdk = ThirdwebSDK.fromPrivateKey(privatekey, "polygon", {
 });
 
 
-// official GRD Token contract
-const tokenContract = await sdk.getContract("0xe426D2410f20B0434FE2ce56299a1543d3fDe450"); // Granderby Token Contract
 
 
-
+// Token contract
+const tokenContract = await sdk.getContract(process.env.TOKEN_ADDRESS);
 
 
 
@@ -462,14 +463,9 @@ var race = setInterval(async () => {
 
   const amount = results[0].winPrize;
 
-  try {
-    const transaction = await tokenContract.erc20.transfer(
-      toAddress,
-      amount
-    );
 
 
-    ///console.log("transaction", transaction);
+
 
 
 /*
@@ -497,6 +493,16 @@ var race = setInterval(async () => {
 
 
 
+
+  /*
+  try {
+    const transaction = await tokenContract.erc20.transfer(
+      toAddress,
+      amount
+    );
+
+
+    ///console.log("transaction", transaction);
 
     const horsehistories = db.collection("horsehistories");
     const filter = { _id: results[0]._id };
@@ -592,4 +598,7 @@ var race = setInterval(async () => {
 
 
 }, 5000);
+
+*/
+
 
