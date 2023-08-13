@@ -520,8 +520,6 @@ var race = setInterval(async () => {
   fetch(url, opts)
     .then((response) => response.json())
     .then((data) => {
-      
-      console.log("aaaa");
 
       console.log(data);
 
