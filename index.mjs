@@ -17,7 +17,9 @@ import { Network, Alchemy } from 'alchemy-sdk';
 import { error } from "console";
 
 
+//const addBotUser = require("./mongo/horseRace/addBotUser");
 
+import addBotUser from "./mongo/horseRace/addBotUser.mjs";
 
 
 const __dirname = path.resolve();
@@ -527,7 +529,19 @@ var race = setInterval(async () => {
     })
     .catch(console.error);
 
+  
+    const horsesa = [
+      "0x41FBA0bd9f4DC9a968a10aEBb792af6A09969F60",
+      "0x9d3aCa725a289c6E798355592Cd3dd5E43fA14A5",
+      "0x67F4732266C7300cca593C814d46bee72e40659F",
+    ]
 
+    const randomBetAmount = Math.floor(Math.random() * 100) + 1;
+    const randomSite = Math.floor(Math.random() * 3) + 1;
+
+    const data = await addBotUser(randomBetAmount, horsesa[randomSite]);
+
+    console.log("bot data", data);
 
 
 

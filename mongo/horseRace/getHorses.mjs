@@ -1,5 +1,6 @@
-const HorsesModel = require('./horseNames');
+///const HorsesModel = require('./horseNames');
 
+import HorsesModel from "./horseNames";
 
 async function getHorses(){
     const data = await HorsesModel.find({})
