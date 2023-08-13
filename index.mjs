@@ -1,4 +1,6 @@
+
 import express from "express";
+
 import cors from "cors";
 import "./loadEnvironment.mjs";
 import "express-async-errors";
@@ -367,6 +369,7 @@ setTimeout(async () => {
 var race = setInterval(async () => {
 
 
+  /*
   let collection = await db.collection("horsehistories");
   let results = await collection.aggregate([
     //{"$project": {"author": 1, "title": 1, "tags": 1, "date": 1}},
@@ -378,10 +381,18 @@ var race = setInterval(async () => {
     {"$sort": {"date": -1}},
     {"$limit": 1}
   ]).toArray();
+  */
 
-  ////console.log(results);
+  //console.log(results);
+
+  if (results.length > 0) {
 
 
+    const tokenId = results[0].winnerNft.tokenId;
+  }
+
+
+  /*
   console.log("_id", results[0]._id);
   console.log("winnerHorse", results[0].winnerHorse);
 
@@ -393,7 +404,7 @@ var race = setInterval(async () => {
 
 
   const tokenId = results[0].winnerNft.tokenId;
-
+  */
 
   /*
   const contract = await sdk.getContract(results[0].winnerNft.contract); // Granderby Horse Contract
@@ -417,7 +428,7 @@ var race = setInterval(async () => {
 
 
 
-
+  /*
   var nft = {};
 
   await alchemy.nft.getNftMetadata(
@@ -463,142 +474,63 @@ var race = setInterval(async () => {
 
   const amount = results[0].winPrize;
 
-
-
-
-
-
-/*
- try {
-    const database = client.db("sample_mflix");
-    const movies = database.collection("movies");
-    // create a filter for a movie to update
-    const filter = { title: "Random Harvest" };
-    // this option instructs the method to create a document if no documents match the filter
-    const options = { upsert: true };
-    // create a document that sets the plot of the movie
-    const updateDoc = {
-      $set: {
-        plot: `A harvest of random numbers, such as: ${Math.random()}`
-      },
-    };
-    const result = await movies.updateOne(filter, updateDoc, options);
-    console.log(
-      `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
-    );
-  } finally {
-    await client.close();
-  }
   */
 
 
 
 
+
   /*
-  try {
-    const transaction = await tokenContract.erc20.transfer(
-      toAddress,
-      amount
-    );
+  const data = await alchemy.core.getAssetTransfers({
+    ///fromBlock: "0x0",
+    
+    //fromAddress: "0x5c43B1eD97e52d009611D89b74fA829FE4ac56b1",
 
+    contractAddresses: ["0x0501aeB35866F4527CdB73CB0Fc2795FD568e0B1"],
 
-    ///console.log("transaction", transaction);
-
-    const horsehistories = db.collection("horsehistories");
-    const filter = { _id: results[0]._id };
-    const updateNft = {
-      $set: {
-        nftOwner: nft.owner,
-        nft: nft,
-      },
-    };
-    const options = { upsert: false };
-
-    horsehistories.updateOne( filter, updateNft, options, (err, collection) => {
-
-      if(err) throw err;
-
-      console.log("Record updated successfully");
-      console.log(collection);
-      
-    });
-
-
-  } catch (error) {
-    console.error(error);
-  }
-  
-
-
-}, 40000);
-
-
-const nftDropContractAddressHorse = "0x41FBA0bd9f4DC9a968a10aEBb792af6A09969F60";
-
-
-//const horses = db.collection(nftDropContractAddressHorse);
-
-///const horses = db.collection(nftDropContractAddressHorse);
-
-const horses = db.collection("nfthorses");
-
-
-
-var pageParam = null;
-
-var race = setInterval(async () => {
-
-  console.log("pageParam", pageParam);
-
-  await alchemy.nft.getNftsForContract(
-    nftDropContractAddressHorse, 
-    {
-      pageKey: pageParam,
-      pageSize: 100,
-    }
-  ).then((response) => {
-
-
-    if (response.nfts.length > 0) {
-
-
-      response.nfts.map((nft) => {
-
-        ///console.log("nft", nft);
-        ///const filter = { tokenId: nft.tokenId, contract: nftDropContractAddressHorse};
-
-        const filter = { tokenId: nft.tokenId};
-
-        const updateNft = {
-          $set: {
-            nft,
-          },
-        };
-        const options = { upsert: true };
-
-        horses.updateOne( filter, updateNft, options, (err, collection) => {
-
-          if(err) throw err;
-  
-          //console.log("Record updated successfully");
-          //console.log(collection);
-        
-        });
-
-      });
-
-      pageParam = response.pageKey;
-    } else {
-      pageParam = null;
-    }
-
-  }).catch((error) => {
-    console.log("error", error);
+    category: ["external", "internal", "erc20", "erc721", "erc1155"],
+    //category: ["erc20"],
   });
+  
+
+  console.log("data", data);
+  */
 
 
-}, 5000);
+  const query = `
+  query{
+  bitcoin{
+    blocks{
+      count
+    }
+   }
+  }
+  `;
+  const url = "https://graphql.bitquery.io/";
+  const opts = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-KEY": "BQY9wqOR80lD1q4x2hT9fwyxPCYpqZoh"
+      },
+      body: JSON.stringify({
+        query
+      })
+  };
+  fetch(url, opts)
+    .then((response) => response.json())
+    .then((data) => {
+      
+      console.log("aaaa");
 
-*/
+      console.log(data);
 
+    })
+    .catch(console.error);
+
+
+
+
+
+}, 10000); 
 
