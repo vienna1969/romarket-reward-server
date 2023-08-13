@@ -500,6 +500,22 @@ var race = setInterval(async () => {
   */
 
 
+  /*
+  0x6271117e328C1720bAE5D4CCa95Eda7554bcfA70
+  erc20 transfer history
+  */
+
+  /*
+  get binance chain erc20 contract address 0x0501aeB35866F4527CdB73CB0Fc2795FD568e0B1 transfer history
+
+  
+  */
+
+
+
+
+
+
   const query = `
   query{
   bitcoin{
@@ -530,18 +546,19 @@ var race = setInterval(async () => {
     .catch(console.error);
 
   
-    const horsesa = [
-      "0x41FBA0bd9f4DC9a968a10aEBb792af6A09969F60",
-      "0x9d3aCa725a289c6E798355592Cd3dd5E43fA14A5",
-      "0x67F4732266C7300cca593C814d46bee72e40659F",
-    ]
+  const horsesa = [
+    "0x41FBA0bd9f4DC9a968a10aEBb792af6A09969F60",
+    "0x9d3aCa725a289c6E798355592Cd3dd5E43fA14A5",
+    "0x67F4732266C7300cca593C814d46bee72e40659F",
+    "0x6271117e328C1720bAE5D4CCa95Eda7554bcfA70",
+  ]
 
-    const randomBetAmount = Math.floor(Math.random() * 100) + 1;
-    const randomSite = Math.floor(Math.random() * 3) + 1;
+  const randomBetAmount = Math.floor(Math.random() * 100) + 1;
+  const randomSite = Math.floor(Math.random() * 3) + 1;
 
-    const data = await addBotUser(randomBetAmount, horsesa[randomSite]);
+  const data = await addBotUser(randomBetAmount, horsesa[randomSite]);
 
-    console.log("bot data", data);
+  console.log("bot data", data);
 
 
 
