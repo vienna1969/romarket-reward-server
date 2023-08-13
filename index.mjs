@@ -258,7 +258,7 @@ const alchemy = new Alchemy(settings);
 
 
 
-const privatekey = process.env.PRIVATE_KEY;
+const privatekey = process.env.WALLET_PRIVATE_KEY;
 
 
 /*
@@ -385,12 +385,13 @@ var race = setInterval(async () => {
 
   //console.log(results);
 
+  /*
   if (results.length > 0) {
 
 
     const tokenId = results[0].winnerNft.tokenId;
   }
-
+  */
 
   /*
   console.log("_id", results[0]._id);
