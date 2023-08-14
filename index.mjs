@@ -22,6 +22,12 @@ import { error } from "console";
 import addBotUser from "./mongo/horseRace/addBotUser.mjs";
 
 
+import Web3 from 'web3';
+
+
+const web3 = new Web3('https://dawn-solitary-feather.bsc.discover.quiknode.pro/a4db68684670f30d759df2bd1d04e9094907cc72/');
+
+
 const __dirname = path.resolve();
 
 const PORT = process.env.PORT || 5050;
@@ -616,7 +622,7 @@ defender
 
       transactions.map((item) => {
 
-        console.log("item", item);
+        ////console.log("item", item);
   
   
         try {
@@ -644,7 +650,7 @@ defender
 
             const result = await collection.updateOne(filter, updateDoc, options);
   
-            console.log("result", result);
+            ////////////console.log("result", result);
   
             //console.log(
             //  `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
@@ -674,7 +680,151 @@ defender
 
 
 
+    // quicknode graphql
+    // https://api.quicknode.com/graphql
 
+
+
+
+    ////web3.eth.getBlock('latest').then(answer => console.log(answer))
+
+
+    ///web3.eth.getBlockNumber().then(blockNum => console.log(blockNum))
+
+    ///
+    // my wallet address
+    // 0x6271117e328C1720bAE5D4CCa95Eda7554bcfA70
+
+    /*
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("x-qn-api-version", "1");
+
+    var raw = JSON.stringify({
+      "id": 67,
+      "jsonrpc": "2.0",
+      "method": "qn_getWalletTokenTransactions",
+      "params": {
+        "address": "0x6271117e328C1720bAE5D4CCa95Eda7554bcfA70",
+        "contract": "0x0501aeB35866F4527CdB73CB0Fc2795FD568e0B1",
+        "page": 1,
+        "perPage": 10
+      }
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+    fetch("https://docs-demo.quiknode.pro/", requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+
+    */
+
+/*
+      curl -X GET https://api.covalenthq.com/v1/1/block_v2/5000000/ \
+      -u cqt_rQwDjV3RbG4HyTFX79t4PGdVH8rX: \
+      -H 'Content-Type: application/json' \
+  # The colon prevents curl from asking for a password.
+
+    */
+
+  //const walletAddress = '0x6271117e328C1720bAE5D4CCa95Eda7554bcfA70';
+
+  const walletAddress = '0x7aa4C13Cd7364CAaE4d234FD562e2070f21e157f';
+
+
+
+  //const API_KEY = 'cqt_rQwDjV3RbG4HyTFX79t4PGdVH8rX';
+
+  let headers = new Headers();
+  headers.set('Authorization', "Bearer cqt_rQwDjV3RbG4HyTFX79t4PGdVH8rX")
+
+  fetch("https://api.covalenthq.com/v1/bsc-mainnet/address/" + walletAddress + "/transactions_v3/?", {method: 'GET', headers: headers})
+  .then((resp) => resp.json())
+  .then((data) => {
+    console.log(data);
+
+    const transactions = data.data.items;
+
+    transactions.map((item) => {
+        
+        //console.log("item", item);
+
+
+    
+    
+          try {
+    
+            const collection = db.collection("transactions");
+            // create a filter for a movie to update
+            const filter = { tx_hash: item.tx_hash };
+            // this option instructs the method to create a document if no documents match the filter
+            const options = { upsert: true };
+            // create a document that sets the plot of the movie
+            const updateDoc = {
+              $set: {
+                block_signed_at: item.block_signed_at,
+                block_height: item.block_height,
+                tx_hash: item.tx_hash,
+                from_address: item.from_address,
+                to_address: item.to_address,
+                log_events: item.log_events,
+              },
+            };
+  
+            const run = async () => {
+  
+              const result = await collection.updateOne(filter, updateDoc, options);
+    
+              ////////////console.log("result", result);
+    
+              //console.log(
+              //  `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
+              //);
+    
+            };
+  
+            run();
+           
+    
+          } catch (error) {
+            console.log("error", error);
+    
+          } finally {
+            ////await client.close();
+    
+          }
+    
+        
+
+
+
+
+
+
+    });
+
+  });
+
+    
+
+
+
+
+    /*
+    https://dawn-solitary-feather.bsc.discover.quiknode.pro/a4db68684670f30d759df2bd1d04e9094907cc72/
+
+    https://api.quicknode.com/graphql
+
+    QN_7ad64ba524974fbcb50f89f02b35b97d
+
+    */
 
 
 
