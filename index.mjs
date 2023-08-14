@@ -605,16 +605,108 @@ defender
     .then((response) => response.json())
     .then((data) => {
 
-      //console.log(data);
+      console.log(data);
 
       const transactions = data.data.ethereum.transactions;
 
-      console.log("transactions", transactions);
+      ////console.log("transactions", transactions);
 
 
+
+
+      transactions.map((item) => {
+
+        console.log("item", item);
+  
+  
+        try {
+  
+          const collection = db.collection("transactions");
+          // create a filter for a movie to update
+          const filter = { hash: item.hash };
+          // this option instructs the method to create a document if no documents match the filter
+          const options = { upsert: true };
+          // create a document that sets the plot of the movie
+          const updateDoc = {
+            $set: {
+              amount: item.amount,
+              sender: item.sender,
+              gasValue: item.gasValue,
+              hash: item.hash,
+              currency: item.currency,
+              index: item.index,
+              to: item.to,
+              block: item.block,
+            },
+          };
+
+          const run = async () => {
+
+            const result = await collection.updateOne(filter, updateDoc, options);
+  
+            console.log("result", result);
+  
+            //console.log(
+            //  `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
+            //);
+  
+          };
+
+          run();
+         
+  
+        } catch (error) {
+          console.log("error", error);
+  
+        } finally {
+          ////await client.close();
+  
+        }
+  
+      });
+
+
+
+  
 
     })
     .catch(console.error);
+
+
+
+
+
+
+
+
+    /*
+    try {
+      /////const database = client.db("sample_mflix");
+      const database = db("sample_mflix");
+      const movies = database.collection("movies");
+      // create a filter for a movie to update
+      const filter = { title: "Random Harvest" };
+      // this option instructs the method to create a document if no documents match the filter
+      const options = { upsert: true };
+      // create a document that sets the plot of the movie
+      const updateDoc = {
+        $set: {
+          plot: `A harvest of random numbers, such as: ${Math.random()}`
+        },
+      };
+      const result = await movies.updateOne(filter, updateDoc, options);
+      console.log(
+        `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
+      );
+    } finally {
+      ////await client.close();
+    }
+    */
+
+
+
+
+
 
   
   const horsesa = [
@@ -630,6 +722,12 @@ defender
   const data = await addBotUser(randomBetAmount, horsesa[randomSite]);
 
   //console.log("bot data", data);
+
+
+
+
+
+
 
 
 
