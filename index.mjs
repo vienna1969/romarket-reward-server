@@ -749,7 +749,7 @@ defender
   fetch("https://api.covalenthq.com/v1/bsc-mainnet/address/" + walletAddress + "/transactions_v3/?", {method: 'GET', headers: headers})
   .then((resp) => resp.json())
   .then((data) => {
-    console.log(data);
+    ///console.log(data);
 
     const transactions = data.data.items;
 
@@ -758,8 +758,72 @@ defender
         //console.log("item", item);
 
 
+
+        if (item.log_events) {
+
+          // block_signed_at: '2023-08-08T15:51:49Z',
+
+
+          const block_signed_at = item.log_events[0].block_signed_at;
+          const tx_hash = item.log_events[0].tx_hash;
+          const from = item.log_events[0].decoded.params[0].value;
+          const to = item.log_events[0].decoded.params[1].value;
+          const value = item.log_events[0].decoded.params[2].value;
+
+          console.log("block_signed_at", block_signed_at);
+          console.log("tx_hash", tx_hash);
+          console.log("from", from);
+          console.log("to", to);
+          console.log("value", value);
+
+
+
+          try {
     
+            const collection = db.collection("transactions");
+            // create a filter for a movie to update
+            const filter = { tx_hash: tx_hash };
+            // this option instructs the method to create a document if no documents match the filter
+            const options = { upsert: true };
+            // create a document that sets the plot of the movie
+            const updateDoc = {
+              $set: {
+                block_signed_at: block_signed_at,
+                tx_hash: tx_hash,
+                from: from,
+                to: to,
+                value: value,
+              },
+            };
+  
+            const run = async () => {
+  
+              const result = await collection.updateOne(filter, updateDoc, options);
     
+              ////////////console.log("result", result);
+    
+              //console.log(
+              //  `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
+              //);
+    
+            };
+  
+            run();
+           
+    
+          } catch (error) {
+            console.log("error", error);
+    
+          } finally {
+            ////await client.close();
+    
+          }
+
+
+        }
+
+    
+        /*
           try {
     
             const collection = db.collection("transactions");
@@ -802,7 +866,7 @@ defender
     
           }
     
-        
+          */
 
 
 
