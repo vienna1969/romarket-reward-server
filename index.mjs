@@ -595,7 +595,7 @@ defender
 
 
 
-
+  /*
   const url = "https://graphql.bitquery.io/";
   const opts = {
       method: "POST",
@@ -678,6 +678,7 @@ defender
     })
     .catch(console.error);
 
+    */
 
 
     // quicknode graphql
