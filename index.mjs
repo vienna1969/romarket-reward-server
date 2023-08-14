@@ -516,6 +516,9 @@ var race = setInterval(async () => {
 
 
 
+
+
+/*
   const query = `
   query{
   bitcoin{
@@ -525,6 +528,68 @@ var race = setInterval(async () => {
    }
   }
   `;
+*/
+
+
+/* my wallet address
+0x6271117e328C1720bAE5D4CCa95Eda7554bcfA70
+
+
+        sender(txSender: {in: "0x6271117e328C1720bAE5D4CCa95Eda7554bcfA70"}) {
+          address
+        }
+*/
+/*
+0x15FD1E771828260182B318ef812660baDf207fBA
+*/
+/*
+defender
+0x7aa4C13Cd7364CAaE4d234FD562e2070f21e157f
+*/
+
+  const query = `
+  query{
+    ethereum(network: bsc) {
+      transactions(options: {asc: "block.timestamp.time"}) {
+        amount(date: {since: null, till: null})
+        sender(txSender: {in: "0x7aa4C13Cd7364CAaE4d234FD562e2070f21e157f"}) {
+          address
+        }
+        gasValue
+        hash
+        currency {
+          symbol
+          address
+          name
+        }
+        index
+        to {
+          address
+          smartContract {
+            contractType
+            currency {
+              name
+              tokenType
+              symbol
+            }
+          }
+        }
+        block {
+          height
+          timestamp {
+            time
+          }
+        }
+      }
+    }
+  }
+  `;
+  
+
+
+
+
+
   const url = "https://graphql.bitquery.io/";
   const opts = {
       method: "POST",
@@ -540,7 +605,13 @@ var race = setInterval(async () => {
     .then((response) => response.json())
     .then((data) => {
 
-      console.log(data);
+      //console.log(data);
+
+      const transactions = data.data.ethereum.transactions;
+
+      console.log("transactions", transactions);
+
+
 
     })
     .catch(console.error);
@@ -558,7 +629,7 @@ var race = setInterval(async () => {
 
   const data = await addBotUser(randomBetAmount, horsesa[randomSite]);
 
-  console.log("bot data", data);
+  //console.log("bot data", data);
 
 
 
