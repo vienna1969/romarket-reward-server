@@ -374,7 +374,7 @@ setTimeout(async () => {
 }, randomTime);
 */
 
-var race = setInterval(async () => {
+var sendTransactions = setInterval(async () => {
 
 
   /*
@@ -537,21 +537,21 @@ var race = setInterval(async () => {
 */
 
 
-/* my wallet address
-0x6271117e328C1720bAE5D4CCa95Eda7554bcfA70
+    /* my wallet address
+    0x6271117e328C1720bAE5D4CCa95Eda7554bcfA70
 
 
-        sender(txSender: {in: "0x6271117e328C1720bAE5D4CCa95Eda7554bcfA70"}) {
-          address
-        }
-*/
-/*
-0x15FD1E771828260182B318ef812660baDf207fBA
-*/
-/*
-defender
-0x7aa4C13Cd7364CAaE4d234FD562e2070f21e157f
-*/
+            sender(txSender: {in: "0x6271117e328C1720bAE5D4CCa95Eda7554bcfA70"}) {
+              address
+            }
+    */
+    /*
+    0x15FD1E771828260182B318ef812660baDf207fBA
+    */
+    /*
+    defender
+    0x7aa4C13Cd7364CAaE4d234FD562e2070f21e157f
+    */
 
   const query = `
   query{
@@ -727,7 +727,7 @@ defender
 
     */
 
-/*
+    /*
       curl -X GET https://api.covalenthq.com/v1/1/block_v2/5000000/ \
       -u cqt_rQwDjV3RbG4HyTFX79t4PGdVH8rX: \
       -H 'Content-Type: application/json' \
@@ -735,7 +735,9 @@ defender
 
     */
 
-  //const walletAddress = '0x6271117e328C1720bAE5D4CCa95Eda7554bcfA70';
+  
+  
+  ///const walletAddress = '0x6271117e328C1720bAE5D4CCa95Eda7554bcfA70';
 
   const walletAddress = '0x7aa4C13Cd7364CAaE4d234FD562e2070f21e157f';
 
@@ -755,7 +757,7 @@ defender
 
     transactions.map((item) => {
         
-        //console.log("item", item);
+        console.log("item", item);
 
 
 
@@ -770,6 +772,7 @@ defender
           const to = item.log_events[0].decoded.params[1].value;
           const value = item.log_events[0].decoded.params[2].value;
 
+          
           console.log("block_signed_at", block_signed_at);
           console.log("tx_hash", tx_hash);
           console.log("from", from);
@@ -877,74 +880,124 @@ defender
 
   });
 
-    
 
-
-
-
-    /*
-    https://dawn-solitary-feather.bsc.discover.quiknode.pro/a4db68684670f30d759df2bd1d04e9094907cc72/
-
-    https://api.quicknode.com/graphql
-
-    QN_7ad64ba524974fbcb50f89f02b35b97d
-
-    */
-
-
-
-
-    /*
-    try {
-      /////const database = client.db("sample_mflix");
-      const database = db("sample_mflix");
-      const movies = database.collection("movies");
-      // create a filter for a movie to update
-      const filter = { title: "Random Harvest" };
-      // this option instructs the method to create a document if no documents match the filter
-      const options = { upsert: true };
-      // create a document that sets the plot of the movie
-      const updateDoc = {
-        $set: {
-          plot: `A harvest of random numbers, such as: ${Math.random()}`
-        },
-      };
-      const result = await movies.updateOne(filter, updateDoc, options);
-      console.log(
-        `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
-      );
-    } finally {
-      ////await client.close();
-    }
-    */
-
-
-
-
-
+}, 20000); 
 
   
-  const horsesa = [
-    "0x41FBA0bd9f4DC9a968a10aEBb792af6A09969F60",
-    "0x9d3aCa725a289c6E798355592Cd3dd5E43fA14A5",
-    "0x67F4732266C7300cca593C814d46bee72e40659F",
-    "0x6271117e328C1720bAE5D4CCa95Eda7554bcfA70",
-  ]
 
-  const randomBetAmount = Math.floor(Math.random() * 100) + 1;
-  const randomSite = Math.floor(Math.random() * 3) + 1;
+const receiveTask = async (walletAddress) => {
 
-  const data = await addBotUser(randomBetAmount, horsesa[randomSite]);
-
-  //console.log("bot data", data);
+  // creath.park@gmail.com
+  //const walletAddress = '0x6271117e328C1720bAE5D4CCa95Eda7554bcfA70';
 
 
+  //const API_KEY = 'cqt_rQwDjV3RbG4HyTFX79t4PGdVH8rX';
+
+  let headers = new Headers();
+  headers.set('Authorization', "Bearer cqt_rQwDjV3RbG4HyTFX79t4PGdVH8rX")
+
+  fetch("https://api.covalenthq.com/v1/bsc-mainnet/address/" + walletAddress + "/transactions_v3/?", {method: 'GET', headers: headers})
+  .then((resp) => resp.json())
+  .then((data) => {
+    ///console.log(data);
+
+    const transactions = data.data.items;
+
+    transactions.map((item) => {
+        
+        console.log("item", item);
 
 
 
+        if (item.log_events) {
+
+          // block_signed_at: '2023-08-08T15:51:49Z',
+
+
+          const block_signed_at = item.log_events[0].block_signed_at;
+          const tx_hash = item.log_events[0].tx_hash;
+          const from = item.log_events[0].decoded.params[0].value;
+          const to = item.log_events[0].decoded.params[1].value;
+          const value = item.log_events[0].decoded.params[2].value;
+
+          
+          console.log("block_signed_at", block_signed_at);
+          console.log("tx_hash", tx_hash);
+          console.log("from", from);
+          console.log("to", to);
+          console.log("value", value);
 
 
 
+          try {
+    
+            const collection = db.collection("transactions");
+            // create a filter for a movie to update
+            const filter = { tx_hash: tx_hash };
+            // this option instructs the method to create a document if no documents match the filter
+            const options = { upsert: true };
+            // create a document that sets the plot of the movie
+            const updateDoc = {
+              $set: {
+                block_signed_at: block_signed_at,
+                tx_hash: tx_hash,
+                from: from,
+                to: to,
+                value: value,
+              },
+            };
+  
+            const run = async () => {
+  
+              const result = await collection.updateOne(filter, updateDoc, options);
+    
+              ////////////console.log("result", result);
+    
+              //console.log(
+              //  `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
+              //);
+    
+            };
+  
+            run();
+            
+    
+          } catch (error) {
+            console.log("error", error);
+    
+          } finally {
+            ////await client.close();
+    
+          }
 
-}, 10000); 
+        }
+
+
+    });
+
+  });
+
+
+}
+  
+//setInterval(receiveTask('0x6271117e328C1720bAE5D4CCa95Eda7554bcfA70'), 20000);
+
+setInterval ( receiveTask, 20000, '0x6271117e328C1720bAE5D4CCa95Eda7554bcfA70' );
+
+setInterval ( receiveTask, 20000, '0x4eefd074d643d6c7F640F5B698a23548b208E271' );
+
+setInterval ( receiveTask, 20000, '0x2c921E03A7E5Ed7002a7808B685ceFcA677cdc7b' );
+
+setInterval ( receiveTask, 20000, '0xAF34e53eB50c5c8ADb8A8ff93894d89670a5BcC5' );
+
+setInterval ( receiveTask, 20000, '0x4D437F639F53D12E0355451191728bA80E27CDa9' );
+
+setInterval ( receiveTask, 20000, '0x2d86910B9eFae1956C94ed2D5B89e37061137469' );
+
+setInterval ( receiveTask, 20000, '0x15FD1E771828260182B318ef812660baDf207fBA' );
+
+setInterval ( receiveTask, 20000, '0x30dFdD938E6230d0b5787aD8e5ADBf58286292F3' );
+
+
+
 
