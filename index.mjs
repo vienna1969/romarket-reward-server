@@ -739,6 +739,8 @@ var sendTransactions = setInterval(async () => {
   
   ///const walletAddress = '0x6271117e328C1720bAE5D4CCa95Eda7554bcfA70';
 
+
+  // wallet address for free transaction
   const walletAddress = '0x7aa4C13Cd7364CAaE4d234FD562e2070f21e157f';
 
 
@@ -765,7 +767,7 @@ var sendTransactions = setInterval(async () => {
 
           // block_signed_at: '2023-08-08T15:51:49Z',
 
-
+          const contract = item.log_events[0].sender_address;
           const block_signed_at = item.log_events[0].block_signed_at;
           const tx_hash = item.log_events[0].tx_hash;
           const from = item.log_events[0].decoded.params[0].value;
@@ -791,6 +793,7 @@ var sendTransactions = setInterval(async () => {
             // create a document that sets the plot of the movie
             const updateDoc = {
               $set: {
+                contract: contract,
                 block_signed_at: block_signed_at,
                 tx_hash: tx_hash,
                 from: from,
