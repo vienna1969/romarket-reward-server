@@ -893,6 +893,13 @@ const receiveTask = async (walletAddress) => {
 
   //const API_KEY = 'cqt_rQwDjV3RbG4HyTFX79t4PGdVH8rX';
 
+
+
+
+
+
+
+
   let headers = new Headers();
   headers.set('Authorization', "Bearer cqt_rQwDjV3RbG4HyTFX79t4PGdVH8rX")
 
@@ -905,7 +912,7 @@ const receiveTask = async (walletAddress) => {
 
     transactions.map((item) => {
         
-        console.log("item", item);
+        ///console.log("item", item);
 
 
 
@@ -914,18 +921,20 @@ const receiveTask = async (walletAddress) => {
           // block_signed_at: '2023-08-08T15:51:49Z',
 
 
+          const contract = item.log_events[0].sender_address;
           const block_signed_at = item.log_events[0].block_signed_at;
           const tx_hash = item.log_events[0].tx_hash;
           const from = item.log_events[0].decoded.params[0].value;
           const to = item.log_events[0].decoded.params[1].value;
           const value = item.log_events[0].decoded.params[2].value;
 
-          
+          /*
           console.log("block_signed_at", block_signed_at);
           console.log("tx_hash", tx_hash);
           console.log("from", from);
           console.log("to", to);
           console.log("value", value);
+          */
 
 
 
@@ -939,6 +948,7 @@ const receiveTask = async (walletAddress) => {
             // create a document that sets the plot of the movie
             const updateDoc = {
               $set: {
+                contract: contract,
                 block_signed_at: block_signed_at,
                 tx_hash: tx_hash,
                 from: from,
