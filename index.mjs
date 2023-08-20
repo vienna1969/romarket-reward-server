@@ -376,373 +376,8 @@ setTimeout(async () => {
 
 var sendTransactions = setInterval(async () => {
 
-
-  /*
-  let collection = await db.collection("horsehistories");
-  let results = await collection.aggregate([
-    //{"$project": {"author": 1, "title": 1, "tags": 1, "date": 1}},
-    
-    {"$match": {"nftOwner": {"$exists": false}}},
-
-    ///{"$match": {"nft": {"$exists": false}}},
-
-    {"$sort": {"date": -1}},
-    {"$limit": 1}
-  ]).toArray();
-  */
-
-  //console.log(results);
-
-  /*
-  if (results.length > 0) {
-
-
-    const tokenId = results[0].winnerNft.tokenId;
-  }
-  */
-
-  /*
-  console.log("_id", results[0]._id);
-  console.log("winnerHorse", results[0].winnerHorse);
-
-  console.log("winnerNft", results[0].winnerNft);
-
-  console.log("totalBet", results[0].totalBet);
-  console.log("winPrize", results[0].winPrize);
-  ///console.log("nftOwner", results[0].nftOwner);
-
-
-  const tokenId = results[0].winnerNft.tokenId;
-  */
-
-  /*
-  const contract = await sdk.getContract(results[0].winnerNft.contract); // Granderby Horse Contract
-
-  const nft = await contract.erc721.get(tokenId);
-
-  console.log("nft.owner", nft.owner);
-  
-  const toAddress = nft.owner;
-  */
-
-  /*
-  await alchemy.nft
-  .getNftMetadata(npcNames[0].nft1.contract, npcNames[0].nft1.tokenId)
-  .then((response) => {
-    resNpcNames[0].media1 = response.media[0];
-  });  
-  */
-
-
-
-
-
-  /*
-  var nft = {};
-
-  await alchemy.nft.getNftMetadata(
-    results[0].winnerNft.contract,
-    results[0].winnerNft.tokenId
-  ).then((response) => {
-    ///console.log("response", response);
-    nft = response;
-  }).catch((error) => {
-    console.log("error", error);
-  });
-
-
-  if (nft == null) {
-    error("nft is empty");
-    return;
-  }
-
-
-  console.log("contract", results[0].winnerNft.contract);
-  console.log("tokenId", results[0].winnerNft.tokenId);
-
-  await alchemy.nft.getOwnersForNft(
-    results[0].winnerNft.contract,
-    results[0].winnerNft.tokenId
-  ).then((response) => {
-
-    ///console.log("response", response);
-
-    
-    nft.owner = response.owners[0];
-
-  }).catch((error) => {
-    console.log("error", error);
-  });
-
-  console.log("nft.owner", nft.owner);
-
-
-
-  const toAddress = nft.owner;
-
-
-  const amount = results[0].winPrize;
-
-  */
-
-
-
-
-
-  /*
-  const data = await alchemy.core.getAssetTransfers({
-    ///fromBlock: "0x0",
-    
-    //fromAddress: "0x5c43B1eD97e52d009611D89b74fA829FE4ac56b1",
-
-    contractAddresses: ["0x0501aeB35866F4527CdB73CB0Fc2795FD568e0B1"],
-
-    category: ["external", "internal", "erc20", "erc721", "erc1155"],
-    //category: ["erc20"],
-  });
-  
-
-  console.log("data", data);
-  */
-
-
-  /*
-  0x6271117e328C1720bAE5D4CCa95Eda7554bcfA70
-  erc20 transfer history
-  */
-
-  /*
-  get binance chain erc20 contract address 0x0501aeB35866F4527CdB73CB0Fc2795FD568e0B1 transfer history
-
-  
-  */
-
-
-
-
-
-
-
-
-/*
-  const query = `
-  query{
-  bitcoin{
-    blocks{
-      count
-    }
-   }
-  }
-  `;
-*/
-
-
-    /* my wallet address
-    0x6271117e328C1720bAE5D4CCa95Eda7554bcfA70
-
-
-            sender(txSender: {in: "0x6271117e328C1720bAE5D4CCa95Eda7554bcfA70"}) {
-              address
-            }
-    */
-    /*
-    0x15FD1E771828260182B318ef812660baDf207fBA
-    */
-    /*
-    defender
-    0x7aa4C13Cd7364CAaE4d234FD562e2070f21e157f
-    */
-
-  const query = `
-  query{
-    ethereum(network: bsc) {
-      transactions(options: {asc: "block.timestamp.time"}) {
-        amount(date: {since: null, till: null})
-        sender(txSender: {in: "0x7aa4C13Cd7364CAaE4d234FD562e2070f21e157f"}) {
-          address
-        }
-        gasValue
-        hash
-        currency {
-          symbol
-          address
-          name
-        }
-        index
-        to {
-          address
-          smartContract {
-            contractType
-            currency {
-              name
-              tokenType
-              symbol
-            }
-          }
-        }
-        block {
-          height
-          timestamp {
-            time
-          }
-        }
-      }
-    }
-  }
-  `;
-  
-
-
-
-
-  /*
-  const url = "https://graphql.bitquery.io/";
-  const opts = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-API-KEY": "BQY9wqOR80lD1q4x2hT9fwyxPCYpqZoh"
-      },
-      body: JSON.stringify({
-        query
-      })
-  };
-  fetch(url, opts)
-    .then((response) => response.json())
-    .then((data) => {
-
-      console.log(data);
-
-      const transactions = data.data.ethereum.transactions;
-
-      ////console.log("transactions", transactions);
-
-
-
-
-      transactions.map((item) => {
-
-        ////console.log("item", item);
-  
-  
-        try {
-  
-          const collection = db.collection("transactions");
-          // create a filter for a movie to update
-          const filter = { hash: item.hash };
-          // this option instructs the method to create a document if no documents match the filter
-          const options = { upsert: true };
-          // create a document that sets the plot of the movie
-          const updateDoc = {
-            $set: {
-              amount: item.amount,
-              sender: item.sender,
-              gasValue: item.gasValue,
-              hash: item.hash,
-              currency: item.currency,
-              index: item.index,
-              to: item.to,
-              block: item.block,
-            },
-          };
-
-          const run = async () => {
-
-            const result = await collection.updateOne(filter, updateDoc, options);
-  
-            ////////////console.log("result", result);
-  
-            //console.log(
-            //  `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
-            //);
-  
-          };
-
-          run();
-         
-  
-        } catch (error) {
-          console.log("error", error);
-  
-        } finally {
-          ////await client.close();
-  
-        }
-  
-      });
-
-
-
-  
-
-    })
-    .catch(console.error);
-
-    */
-
-
-    // quicknode graphql
-    // https://api.quicknode.com/graphql
-
-
-
-
-    ////web3.eth.getBlock('latest').then(answer => console.log(answer))
-
-
-    ///web3.eth.getBlockNumber().then(blockNum => console.log(blockNum))
-
-    ///
-    // my wallet address
-    // 0x6271117e328C1720bAE5D4CCa95Eda7554bcfA70
-
-    /*
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("x-qn-api-version", "1");
-
-    var raw = JSON.stringify({
-      "id": 67,
-      "jsonrpc": "2.0",
-      "method": "qn_getWalletTokenTransactions",
-      "params": {
-        "address": "0x6271117e328C1720bAE5D4CCa95Eda7554bcfA70",
-        "contract": "0x0501aeB35866F4527CdB73CB0Fc2795FD568e0B1",
-        "page": 1,
-        "perPage": 10
-      }
-    });
-
-    var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow'
-    };
-
-    fetch("https://docs-demo.quiknode.pro/", requestOptions)
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
-
-    */
-
-    /*
-      curl -X GET https://api.covalenthq.com/v1/1/block_v2/5000000/ \
-      -u cqt_rQwDjV3RbG4HyTFX79t4PGdVH8rX: \
-      -H 'Content-Type: application/json' \
-  # The colon prevents curl from asking for a password.
-
-    */
-
-  
-  
-  ///const walletAddress = '0x6271117e328C1720bAE5D4CCa95Eda7554bcfA70';
-
-
   // wallet address for free transaction
   const walletAddress = '0x7aa4C13Cd7364CAaE4d234FD562e2070f21e157f';
-
 
 
   //const API_KEY = 'cqt_rQwDjV3RbG4HyTFX79t4PGdVH8rX';
@@ -753,7 +388,25 @@ var sendTransactions = setInterval(async () => {
   fetch("https://api.covalenthq.com/v1/bsc-mainnet/address/" + walletAddress + "/transactions_v3/?", {method: 'GET', headers: headers})
   .then((resp) => resp.json())
   .then((data) => {
-    ///console.log(data);
+
+  
+
+    /*
+    data= {
+  data: null,
+  error: true,
+  error_message: 'Credit limit exceeded for your account. Upgrade your plan or spending limits at covalenthq.com/platform',
+  error_code: 402
+}
+*/
+    if (data.data === null) {
+
+      console.log("data=", data);
+
+      return;
+    }
+
+  
 
     const transactions = data.data.items;
 
@@ -825,58 +478,7 @@ var sendTransactions = setInterval(async () => {
     
           }
 
-
         }
-
-    
-        /*
-          try {
-    
-            const collection = db.collection("transactions");
-            // create a filter for a movie to update
-            const filter = { tx_hash: item.tx_hash };
-            // this option instructs the method to create a document if no documents match the filter
-            const options = { upsert: true };
-            // create a document that sets the plot of the movie
-            const updateDoc = {
-              $set: {
-                block_signed_at: item.block_signed_at,
-                block_height: item.block_height,
-                tx_hash: item.tx_hash,
-                from_address: item.from_address,
-                to_address: item.to_address,
-                log_events: item.log_events,
-              },
-            };
-  
-            const run = async () => {
-  
-              const result = await collection.updateOne(filter, updateDoc, options);
-    
-              ////////////console.log("result", result);
-    
-              //console.log(
-              //  `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
-              //);
-    
-            };
-  
-            run();
-           
-    
-          } catch (error) {
-            console.log("error", error);
-    
-          } finally {
-            ////await client.close();
-    
-          }
-    
-          */
-
-
-
-
 
 
     });
@@ -884,7 +486,7 @@ var sendTransactions = setInterval(async () => {
   });
 
 
-}, 20000); 
+}, 10000);
 
   
 
@@ -909,7 +511,13 @@ const receiveTask = async (walletAddress) => {
   fetch("https://api.covalenthq.com/v1/bsc-mainnet/address/" + walletAddress + "/transactions_v3/?", {method: 'GET', headers: headers})
   .then((resp) => resp.json())
   .then((data) => {
-    ///console.log(data);
+
+    if (data.data === null) {
+
+      console.log("data=", data);
+
+      return;
+    }
 
     const transactions = data.data.items;
 
