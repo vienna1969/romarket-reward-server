@@ -377,17 +377,37 @@ setTimeout(async () => {
 var sendTransactions = setInterval(async () => {
 
   // wallet address for free transaction
-  const walletAddress = '0x7aa4C13Cd7364CAaE4d234FD562e2070f21e157f';
+  //const walletAddress = '0x7aa4C13Cd7364CAaE4d234FD562e2070f21e157f'; // bnb address
+
+  const walletAddress = '0xde080E2a05663bdfc6D5cF9eef0c49711F24Fc4B'; // eth gasless drop address
+
 
 
   //const API_KEY = 'cqt_rQwDjV3RbG4HyTFX79t4PGdVH8rX';
 
   let headers = new Headers();
-  headers.set('Authorization', "Bearer cqt_rQwDjV3RbG4HyTFX79t4PGdVH8rX")
 
+  ///headers.set('Authorization', "Bearer cqt_rQwDjV3RbG4HyTFX79t4PGdVH8rX")
+
+  /// cqt_rQJvXTwHHH6qywXG4wHJVVptFFKj // creath.park@gmail.com
+  headers.set('Authorization', "Bearer cqt_rQJvXTwHHH6qywXG4wHJVVptFFKj")
+
+  /*
+  curl -X GET https://api.covalenthq.com/v1/1/block_v2/5000000/ \
+    -u cqt_rQJvXTwHHH6qywXG4wHJVVptFFKj: \
+    -H 'Content-Type: application/json' \
+# The colon prevents curl from asking for a password.
+*/
+
+  /*
   fetch("https://api.covalenthq.com/v1/bsc-mainnet/address/" + walletAddress + "/transactions_v3/?", {method: 'GET', headers: headers})
   .then((resp) => resp.json())
   .then((data) => {
+    */
+
+  fetch("https://api.covalenthq.com/v1/eth-mainnet/address/" + walletAddress + "/transactions_v3/?", {method: 'GET', headers: headers})
+    .then((resp) => resp.json())
+    .then((data) => {
 
   
 
@@ -486,7 +506,7 @@ var sendTransactions = setInterval(async () => {
   });
 
 
-}, 10000);
+}, 20000);
 
   
 
